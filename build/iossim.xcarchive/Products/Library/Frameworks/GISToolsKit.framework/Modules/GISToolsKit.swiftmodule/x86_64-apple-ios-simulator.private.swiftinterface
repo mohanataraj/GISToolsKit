@@ -1,0 +1,1824 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.1 effective-5.10 (swiftlang-6.1.0.110.21 clang-1700.0.13.3)
+// swift-module-flags: -target x86_64-apple-ios18.4-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name GISToolsKit
+// swift-module-flags-ignorable:  -interface-compiler-version 6.1
+import CoreLocation
+import Foundation
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+extension GISToolsKit.Coordinate3D {
+  public func rhumbDistance(from other: GISToolsKit.Coordinate3D) -> CoreLocation.CLLocationDistance
+}
+extension GISToolsKit.Point {
+  public func rhumbDistance(from other: GISToolsKit.Point) -> CoreLocation.CLLocationDistance
+}
+extension GISToolsKit.Coordinate3D {
+  public func destination(distance: CoreLocation.CLLocationDistance, bearing: CoreLocation.CLLocationDegrees) -> GISToolsKit.Coordinate3D
+  public func coordinate(inDirectionOf target: GISToolsKit.Coordinate3D, distance: CoreLocation.CLLocationDistance) -> GISToolsKit.Coordinate3D
+}
+extension GISToolsKit.Point {
+  public func destination(distance: CoreLocation.CLLocationDistance, bearing: CoreLocation.CLLocationDegrees) -> GISToolsKit.Point
+  public func point(inDirectionOf target: GISToolsKit.Point, distance: CoreLocation.CLLocationDistance) -> GISToolsKit.Point
+}
+extension GISToolsKit.GeoJson {
+  public var center: GISToolsKit.Point? {
+    get
+  }
+}
+extension GISToolsKit.GeoJson {
+  public var centroid: GISToolsKit.Point? {
+    get
+  }
+}
+extension GISToolsKit.FeatureCollection {
+  public func centerMean(weightAttribute: Swift.String? = nil) -> GISToolsKit.Point?
+}
+extension GISToolsKit.LineSegment {
+  public func perpendicularFoot(coordinate: GISToolsKit.Coordinate3D, clampToEnds: Swift.Bool = false) -> GISToolsKit.Coordinate3D?
+}
+extension GISToolsKit.LineSegment {
+  public func nearestCoordinateOnSegment(from other: GISToolsKit.Coordinate3D) -> (coordinate: GISToolsKit.Coordinate3D, distance: CoreLocation.CLLocationDistance)
+}
+extension GISToolsKit.LineString {
+  public func nearestCoordinateOnLine(from other: GISToolsKit.Coordinate3D) -> (coordinate: GISToolsKit.Coordinate3D, index: Swift.Int, distance: CoreLocation.CLLocationDistance)?
+  public func nearestPointOnLine(from other: GISToolsKit.Point) -> (point: GISToolsKit.Point, index: Swift.Int, distance: CoreLocation.CLLocationDistance)?
+}
+extension GISToolsKit.Feature {
+  public func nearestCoordinateOnLine(from other: GISToolsKit.Coordinate3D) -> (coordinate: GISToolsKit.Coordinate3D, index: Swift.Int, distance: CoreLocation.CLLocationDistance)?
+  public func nearestPointOnLine(from other: GISToolsKit.Point) -> (point: GISToolsKit.Point, index: Swift.Int, distance: CoreLocation.CLLocationDistance)?
+}
+public struct Point : GISToolsKit.PointGeometry {
+  public var type: GISToolsKit.GeoJsonType {
+    get
+  }
+  public var projection: GISToolsKit.Projection {
+    get
+  }
+  public let coordinate: GISToolsKit.Coordinate3D
+  public var allCoordinates: [GISToolsKit.Coordinate3D] {
+    get
+  }
+  public var boundingBox: GISToolsKit.BoundingBox?
+  public var foreignMembers: [Swift.String : any Swift.Sendable]
+  public var points: [GISToolsKit.Point] {
+    get
+  }
+  public init(_ coordinate: GISToolsKit.Coordinate3D, calculateBoundingBox: Swift.Bool = false)
+  public init?(json: Any?)
+  public init?(json: Any?, calculateBoundingBox: Swift.Bool = false)
+  public var asJson: [Swift.String : any Swift.Sendable] {
+    get
+  }
+}
+extension GISToolsKit.Point {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.Point
+}
+extension GISToolsKit.Point {
+  public init(_ coordinate: CoreLocation.CLLocationCoordinate2D, calculateBoundingBox: Swift.Bool = false)
+  public init(_ coordinate: CoreLocation.CLLocation, calculateBoundingBox: Swift.Bool = false)
+}
+extension GISToolsKit.Point {
+  public func calculateBoundingBox() -> GISToolsKit.BoundingBox?
+  public func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.Point : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.Point, rhs: GISToolsKit.Point) -> Swift.Bool
+}
+extension GISToolsKit.Ring {
+  public var isClockwise: Swift.Bool {
+    get
+  }
+  public var isCounterClockwise: Swift.Bool {
+    get
+  }
+}
+extension GISToolsKit.GeoJson {
+  public func transformedTranslate(distance: CoreLocation.CLLocationDistance, direction: CoreLocation.CLLocationDegrees, zTranslation: CoreLocation.CLLocationDistance = 0.0) -> Self
+  public mutating func transformTranslate(distance: CoreLocation.CLLocationDistance, direction: CoreLocation.CLLocationDegrees, zTranslation: CoreLocation.CLLocationDistance = 0.0)
+}
+extension GISToolsKit.LineSegment {
+  public var length: CoreLocation.CLLocationDistance {
+    get
+  }
+}
+extension GISToolsKit.GeoJson {
+  public var length: CoreLocation.CLLocationDistance {
+    get
+  }
+}
+public struct FeatureCollection : GISToolsKit.GeoJson, GISToolsKit.EmptyCreatable {
+  public var type: GISToolsKit.GeoJsonType {
+    get
+  }
+  public var projection: GISToolsKit.Projection {
+    get
+  }
+  public var features: [GISToolsKit.Feature] {
+    get
+  }
+  public var allCoordinates: [GISToolsKit.Coordinate3D] {
+    get
+  }
+  public var boundingBox: GISToolsKit.BoundingBox?
+  public var foreignMembers: [Swift.String : any Swift.Sendable]
+  public init()
+  public init(_ feature: GISToolsKit.Feature, calculateBoundingBox: Swift.Bool = false)
+  public init(_ features: [GISToolsKit.Feature], calculateBoundingBox: Swift.Bool = false)
+  public init(_ geometries: [any GISToolsKit.GeoJsonGeometry], calculateBoundingBox: Swift.Bool = false)
+  public init?(_ geoJson: (any GISToolsKit.GeoJson)?, calculateBoundingBox: Swift.Bool = false)
+  public init?(json: Any?)
+  public init?(json: Any?, calculateBoundingBox: Swift.Bool = false)
+  public var asJson: [Swift.String : any Swift.Sendable] {
+    get
+  }
+}
+extension GISToolsKit.FeatureCollection {
+  @discardableResult
+  public mutating func updateBoundingBox(onlyIfNecessary ifNecessary: Swift.Bool = true) -> GISToolsKit.BoundingBox?
+  public func calculateBoundingBox() -> GISToolsKit.BoundingBox?
+  public func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.FeatureCollection : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.FeatureCollection, rhs: GISToolsKit.FeatureCollection) -> Swift.Bool
+}
+extension GISToolsKit.FeatureCollection {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.FeatureCollection
+}
+extension GISToolsKit.FeatureCollection {
+  public mutating func insertFeature(_ feature: GISToolsKit.Feature, atIndex index: Swift.Int)
+  public mutating func appendFeature(_ feature: GISToolsKit.Feature)
+  @discardableResult
+  public mutating func removeFeature(at index: Swift.Int) -> GISToolsKit.Feature?
+  public mutating func mapFeatures(_ transform: (GISToolsKit.Feature) -> GISToolsKit.Feature)
+  public mutating func compactMapFeatures(_ transform: (GISToolsKit.Feature) -> GISToolsKit.Feature?)
+  public mutating func filterFeatures(_ isIncluded: (GISToolsKit.Feature) -> Swift.Bool)
+}
+public enum GISTool {
+  public static let equatorialRadius: Swift.Double
+  public static let earthRadius: Swift.Double
+  public static let earthCircumference: Swift.Double
+  public static let originShift: Swift.Double
+  public static let equalityDelta: Swift.Double
+  public static let tileSideLength: Swift.Double
+  public static let defaultPolylinePrecision: Swift.Double
+}
+extension GISToolsKit.PolygonGeometry {
+  public var lineStrings: [GISToolsKit.MultiLineString] {
+    get
+  }
+}
+public struct Ring : Swift.Sendable {
+  public var projection: GISToolsKit.Projection {
+    get
+  }
+  public let coordinates: [GISToolsKit.Coordinate3D]
+  public var lineString: GISToolsKit.LineString {
+    get
+  }
+  public init?(_ coordinates: [GISToolsKit.Coordinate3D])
+  public init(unchecked coordinates: [GISToolsKit.Coordinate3D])
+}
+extension GISToolsKit.Ring : GISToolsKit.Projectable {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.Ring
+}
+extension GISToolsKit.Ring {
+  public func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.Ring {
+  public init?(_ coordinates: [CoreLocation.CLLocationCoordinate2D])
+  public init?(_ coordinates: [CoreLocation.CLLocation])
+}
+extension GISToolsKit.Feature.Identifier {
+  public var int64Value: Swift.Int64? {
+    get
+  }
+  public var uint64Value: Swift.UInt64? {
+    get
+  }
+}
+extension GISToolsKit.Ring {
+  public func contains(_ coordinate: GISToolsKit.Coordinate3D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+  public func contains(_ point: GISToolsKit.Point, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+}
+extension GISToolsKit.Polygon {
+  public func contains(_ coordinate: GISToolsKit.Coordinate3D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+  public func contains(_ point: GISToolsKit.Point, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+}
+extension GISToolsKit.MultiPolygon {
+  public func contains(_ coordinate: GISToolsKit.Coordinate3D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+  public func contains(_ point: GISToolsKit.Point, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+}
+extension GISToolsKit.GeometryCollection {
+  public func contains(_ coordinate: GISToolsKit.Coordinate3D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+}
+extension GISToolsKit.Feature {
+  public func contains(_ coordinate: GISToolsKit.Coordinate3D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+}
+extension GISToolsKit.FeatureCollection {
+  public func contains(_ coordinate: GISToolsKit.Coordinate3D, ignoreBoundary: Swift.Bool = false) -> Swift.Bool
+}
+extension GISToolsKit.LineString {
+  public func slice(start: GISToolsKit.Coordinate3D? = nil, end: GISToolsKit.Coordinate3D? = nil) -> GISToolsKit.LineString?
+}
+extension GISToolsKit.Feature {
+  public func slice(start: GISToolsKit.Coordinate3D? = nil, end: GISToolsKit.Coordinate3D? = nil) -> GISToolsKit.Feature?
+}
+public struct LineSegment : Swift.Sendable {
+  public var boundingBox: GISToolsKit.BoundingBox?
+  public var projection: GISToolsKit.Projection {
+    get
+  }
+  public let first: GISToolsKit.Coordinate3D
+  public let second: GISToolsKit.Coordinate3D
+  public let index: Swift.Int?
+  public init(first: GISToolsKit.Coordinate3D, second: GISToolsKit.Coordinate3D, index: Swift.Int? = nil, calculateBoundingBox: Swift.Bool = false)
+}
+extension GISToolsKit.LineSegment {
+  public var coordinates: [GISToolsKit.Coordinate3D] {
+    get
+  }
+}
+extension GISToolsKit.LineSegment : GISToolsKit.Projectable {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.LineSegment
+}
+extension GISToolsKit.LineSegment {
+  public init(first: CoreLocation.CLLocationCoordinate2D, second: CoreLocation.CLLocationCoordinate2D, index: Swift.Int? = nil, calculateBoundingBox: Swift.Bool = false)
+  public init(first: CoreLocation.CLLocation, second: CoreLocation.CLLocation, index: Swift.Int? = nil, calculateBoundingBox: Swift.Bool = false)
+}
+extension GISToolsKit.LineSegment : GISToolsKit.BoundingBoxRepresentable {
+  public func calculateBoundingBox() -> GISToolsKit.BoundingBox?
+  public func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.LineSegment : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.LineSegment, rhs: GISToolsKit.LineSegment) -> Swift.Bool
+}
+extension GISToolsKit.LineSegment : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GISToolsKit.GeoJson {
+  public func simplified(tolerance: CoreLocation.CLLocationDistance = 1.0, highQuality: Swift.Bool = false) -> Self
+  public mutating func simplify(tolerance: CoreLocation.CLLocationDistance = 1.0, highQuality: Swift.Bool = false)
+}
+public enum Simplify {
+  public static func simplify(coordinates: [GISToolsKit.Coordinate3D], tolerance: CoreLocation.CLLocationDegrees, highQuality: Swift.Bool = false) -> [GISToolsKit.Coordinate3D]
+}
+extension GISToolsKit.Coordinate3D {
+  public func distance(from other: GISToolsKit.Coordinate3D) -> CoreLocation.CLLocationDistance
+}
+extension GISToolsKit.Point {
+  public func distance(from other: GISToolsKit.Point) -> CoreLocation.CLLocationDistance
+}
+extension GISToolsKit.Coordinate3D {
+  public func circle(radius: CoreLocation.CLLocationDistance, steps: Swift.Int = 64) -> GISToolsKit.Polygon?
+}
+extension GISToolsKit.Point {
+  public func circle(radius: CoreLocation.CLLocationDistance, steps: Swift.Int = 64) -> GISToolsKit.Polygon?
+}
+extension GISToolsKit.LineString {
+  public func nearestCoordinate(outOf coordinates: [GISToolsKit.Coordinate3D]) -> (coordinate: GISToolsKit.Coordinate3D, distance: CoreLocation.CLLocationDistance)?
+  public func nearestPointAndDistance(outOf points: [GISToolsKit.Point]) -> (point: GISToolsKit.Point, distance: CoreLocation.CLLocationDistance)?
+}
+public struct Polygon : GISToolsKit.PolygonGeometry, GISToolsKit.EmptyCreatable {
+  public var type: GISToolsKit.GeoJsonType {
+    get
+  }
+  public var projection: GISToolsKit.Projection {
+    get
+  }
+  public let coordinates: [[GISToolsKit.Coordinate3D]]
+  public var allCoordinates: [GISToolsKit.Coordinate3D] {
+    get
+  }
+  public var boundingBox: GISToolsKit.BoundingBox?
+  public var foreignMembers: [Swift.String : any Swift.Sendable]
+  public var polygons: [GISToolsKit.Polygon] {
+    get
+  }
+  public var outerRing: GISToolsKit.Ring? {
+    get
+  }
+  public var innerRings: [GISToolsKit.Ring]? {
+    get
+  }
+  public var rings: [GISToolsKit.Ring] {
+    get
+  }
+  public init()
+  public init?(_ coordinates: [[GISToolsKit.Coordinate3D]], calculateBoundingBox: Swift.Bool = false)
+  public init(unchecked coordinates: [[GISToolsKit.Coordinate3D]], calculateBoundingBox: Swift.Bool = false)
+  public init?(_ rings: [GISToolsKit.Ring], calculateBoundingBox: Swift.Bool = false)
+  public init(unchecked rings: [GISToolsKit.Ring], calculateBoundingBox: Swift.Bool = false)
+  public init?(json: Any?)
+  public init?(json: Any?, calculateBoundingBox: Swift.Bool = false)
+  public var asJson: [Swift.String : any Swift.Sendable] {
+    get
+  }
+}
+extension GISToolsKit.Polygon {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.Polygon
+}
+extension GISToolsKit.Polygon {
+  public init?(_ coordinates: [[CoreLocation.CLLocationCoordinate2D]], calculateBoundingBox: Swift.Bool = false)
+  public init?(_ coordinates: [[CoreLocation.CLLocation]], calculateBoundingBox: Swift.Bool = false)
+}
+extension GISToolsKit.Polygon {
+  public func calculateBoundingBox() -> GISToolsKit.BoundingBox?
+  public func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.Polygon : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.Polygon, rhs: GISToolsKit.Polygon) -> Swift.Bool
+}
+extension GISToolsKit.Coordinate3D {
+  public func truncated(precision: Swift.Int = 6, removeAltitude: Swift.Bool = false, removeM: Swift.Bool = false) -> GISToolsKit.Coordinate3D
+  public mutating func truncate(precision: Swift.Int, removeAltitude: Swift.Bool = false)
+}
+extension GISToolsKit.GeoJson {
+  public func truncated(precision: Swift.Int = 6, removeAltitude: Swift.Bool = false) -> Self
+  public mutating func truncate(precision: Swift.Int = 6, removeAltitude: Swift.Bool = false)
+}
+extension GISToolsKit.Point {
+  public func lineArc(radius: CoreLocation.CLLocationDistance, bearing1: CoreLocation.CLLocationDegrees, bearing2: CoreLocation.CLLocationDegrees, steps: Swift.Int = 64) -> GISToolsKit.LineString?
+}
+public enum GeoJsonType : Swift.String, Swift.Sendable {
+  case invalid
+  case point
+  case multiPoint
+  case lineString
+  case multiLineString
+  case polygon
+  case multiPolygon
+  case geometryCollection
+  case feature
+  case featureCollection
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol GeoJson : GISToolsKit.BoundingBoxRepresentable, GISToolsKit.GeoJsonConvertible, GISToolsKit.Projectable, GISToolsKit.ValidatableGeoJson, Swift.CustomDebugStringConvertible, Swift.Decodable, Swift.Encodable, Swift.Sendable {
+  var type: GISToolsKit.GeoJsonType { get }
+  var allCoordinates: [GISToolsKit.Coordinate3D] { get }
+  var foreignMembers: [Swift.String : any Swift.Sendable] { get set }
+  init?(json: Any?, calculateBoundingBox: Swift.Bool)
+  func isEqualTo(_ other: any GISToolsKit.GeoJson) -> Swift.Bool
+}
+extension GISToolsKit.GeoJson where Self : Swift.Equatable {
+  public func isEqualTo(_ other: any GISToolsKit.GeoJson) -> Swift.Bool
+}
+extension GISToolsKit.GeoJson {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension GISToolsKit.GeoJson {
+  public func foreignMember<T>(for key: Swift.String) -> T? where T : Swift.Sendable
+  public mutating func setForeignMember(_ value: (any Swift.Sendable)?, for key: Swift.String)
+  @discardableResult
+  public mutating func removeForeignMember(for key: Swift.String) -> (any Swift.Sendable)?
+  public subscript<T>(foreignMember key: Swift.String) -> T? where T : Swift.Sendable {
+    get
+    set
+  }
+}
+public protocol EmptyCreatable {
+  init()
+}
+public protocol GeoJsonGeometry : GISToolsKit.GeoJson {
+}
+public protocol PointGeometry : GISToolsKit.GeoJsonGeometry {
+  var points: [GISToolsKit.Point] { get }
+}
+public protocol LineStringGeometry : GISToolsKit.GeoJsonGeometry {
+  var lineStrings: [GISToolsKit.LineString] { get }
+  var firstCoordinate: GISToolsKit.Coordinate3D? { get }
+  var lastCoordinate: GISToolsKit.Coordinate3D? { get }
+}
+public protocol PolygonGeometry : GISToolsKit.GeoJsonGeometry {
+  var polygons: [GISToolsKit.Polygon] { get }
+  func contains(_ coordinate: GISToolsKit.Coordinate3D, ignoreBoundary: Swift.Bool) -> Swift.Bool
+  func contains(_ point: GISToolsKit.Point, ignoreBoundary: Swift.Bool) -> Swift.Bool
+}
+extension GISToolsKit.GeoJson {
+  public static func tryCreate<V>(json: Any?) -> V? where V : GISToolsKit.GeoJsonReadable
+  public static func tryCreate<V>(json: Any?) -> [V]? where V : GISToolsKit.GeoJsonReadable
+  public static func tryCreate(json: Any?) -> (any GISToolsKit.GeoJson)?
+  public static func tryCreateGeometry(json: Any?) -> (any GISToolsKit.GeoJsonGeometry)?
+  public static func tryCreate(json: Any?) -> [any GISToolsKit.GeoJsonGeometry]?
+  public static func tryCreateFeature(json: Any?) -> GISToolsKit.Feature?
+}
+public struct BoundingBox : GISToolsKit.GeoJsonReadable, Swift.CustomStringConvertible, Swift.Sendable {
+  public static var world: GISToolsKit.BoundingBox {
+    get
+  }
+  public static var zero: GISToolsKit.BoundingBox {
+    get
+  }
+  public let projection: GISToolsKit.Projection
+  public var southWest: GISToolsKit.Coordinate3D
+  public var northEast: GISToolsKit.Coordinate3D
+  public var northWest: GISToolsKit.Coordinate3D {
+    get
+  }
+  public var southEast: GISToolsKit.Coordinate3D {
+    get
+  }
+  @available(*, deprecated, renamed: "init(coordinates:padding:)", message: "Padding is now expressed in meters")
+  public init?(coordinates: [GISToolsKit.Coordinate3D], paddingKilometers: Swift.Double)
+  public init?(coordinates: [GISToolsKit.Coordinate3D], padding: CoreLocation.CLLocationDistance = 0.0)
+  public init(southWest: GISToolsKit.Coordinate3D, northEast: GISToolsKit.Coordinate3D)
+  public init?(boundingBoxes: [GISToolsKit.BoundingBox])
+  public init?(json: Any?)
+  public var asJson: [Swift.Double] {
+    get
+  }
+  @available(*, deprecated, renamed: "padded(_:)", message: "Padding is now expressed in meters")
+  public func with(padding paddingKilometers: Swift.Double) -> GISToolsKit.BoundingBox
+  public func padded(_ padding: CoreLocation.CLLocationDistance) -> GISToolsKit.BoundingBox
+  @available(*, deprecated, renamed: "expanded(byDegrees:)", message: "Renamed to expaned(byDegrees:)")
+  public func expand(_ degrees: CoreLocation.CLLocationDegrees) -> GISToolsKit.BoundingBox
+  public func expanded(byDegrees degrees: CoreLocation.CLLocationDegrees) -> GISToolsKit.BoundingBox
+  @available(*, deprecated, renamed: "expanded(byDistance:)", message: "Renamed to expaned(byDistance:)")
+  public func expand(distance: CoreLocation.CLLocationDistance) -> GISToolsKit.BoundingBox
+  public func expanded(byDistance distance: CoreLocation.CLLocationDistance) -> GISToolsKit.BoundingBox
+  @available(*, deprecated, renamed: "expanded(byIncluding:)", message: "Renamed to expanded(byIncluding:)")
+  public func expand(including coordinate: GISToolsKit.Coordinate3D) -> GISToolsKit.BoundingBox
+  public func expanded(byIncluding coordinate: GISToolsKit.Coordinate3D) -> GISToolsKit.BoundingBox
+  @available(*, deprecated, renamed: "expanded(byIncluding:)", message: "Renamed to expanded(byIncluding:)")
+  public func expand(including boundingBox: GISToolsKit.BoundingBox) -> GISToolsKit.BoundingBox
+  public func expanded(byIncluding boundingBox: GISToolsKit.BoundingBox) -> GISToolsKit.BoundingBox
+  public var description: Swift.String {
+    get
+  }
+}
+extension GISToolsKit.BoundingBox : GISToolsKit.Projectable {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.BoundingBox
+}
+extension GISToolsKit.BoundingBox {
+  @available(*, deprecated, renamed: "init(coordinates:padding:)", message: "Padding is now expressed in meters")
+  public init?(coordinates: [CoreLocation.CLLocationCoordinate2D], paddingKilometers: Swift.Double)
+  public init?(coordinates: [CoreLocation.CLLocationCoordinate2D], padding: Swift.Double = 0.0)
+  public init(southWest: CoreLocation.CLLocationCoordinate2D, northEast: CoreLocation.CLLocationCoordinate2D)
+  @available(*, deprecated, renamed: "init(locations:padding:)", message: "Padding is now expressed in meters")
+  public init?(locations: [CoreLocation.CLLocation], paddingKilometers: Swift.Double = 0.0)
+  public init?(locations: [CoreLocation.CLLocation], padding: Swift.Double = 0.0)
+  public init(southWest: CoreLocation.CLLocation, northEast: CoreLocation.CLLocation)
+}
+extension GISToolsKit.BoundingBox {
+  public var boundingBoxPolygon: GISToolsKit.Polygon {
+    get
+  }
+  public var center: GISToolsKit.Coordinate3D {
+    get
+  }
+  public var area: Swift.Double {
+    get
+  }
+  public var size: (width: Swift.Double, height: Swift.Double) {
+    get
+  }
+}
+extension GISToolsKit.BoundingBox {
+  public func contains(_ coordinate: GISToolsKit.Coordinate3D) -> Swift.Bool
+  public func contains(_ coordinate: CoreLocation.CLLocationCoordinate2D) -> Swift.Bool
+  public func contains(_ location: CoreLocation.CLLocation) -> Swift.Bool
+  public func contains(_ other: GISToolsKit.BoundingBox) -> Swift.Bool
+  public func intersects(_ other: GISToolsKit.BoundingBox) -> Swift.Bool
+  public func intersection(_ other: GISToolsKit.BoundingBox) -> GISToolsKit.BoundingBox?
+  public var crossesAntiMeridian: Swift.Bool {
+    get
+  }
+}
+extension GISToolsKit.BoundingBox {
+  public mutating func normalize()
+  public func normalized() -> GISToolsKit.BoundingBox
+  public mutating func clamp()
+  public func clamped() -> GISToolsKit.BoundingBox
+}
+extension GISToolsKit.BoundingBox {
+  public static func + (lhs: GISToolsKit.BoundingBox, rhs: GISToolsKit.BoundingBox) -> GISToolsKit.BoundingBox
+  public mutating func formUnion(_ other: GISToolsKit.BoundingBox)
+}
+extension GISToolsKit.BoundingBox : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.BoundingBox, rhs: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.BoundingBox : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GISToolsKit.GeoJson {
+  public var reversed: Self {
+    get
+  }
+  public mutating func reverse()
+}
+extension GISToolsKit.Ring {
+  public var reversed: GISToolsKit.Ring {
+    get
+  }
+  public mutating func reverse()
+}
+extension GISToolsKit.LineSegment {
+  public var reversed: GISToolsKit.LineSegment {
+    get
+  }
+  public mutating func reverse()
+}
+public enum RTreeSortOption : Swift.Sendable {
+  case hilbert
+  case byLatitude
+  case byLongitude
+  case unsorted
+  public static func == (a: GISToolsKit.RTreeSortOption, b: GISToolsKit.RTreeSortOption) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct RTree<T> : Swift.Sendable where T : GISToolsKit.BoundingBoxRepresentable, T : Swift.Sendable {
+  public let projection: GISToolsKit.Projection
+  public let objects: [T]
+  public let count: Swift.Int
+  public let nodeSize: Swift.Int
+  public var boundingBox: GISToolsKit.BoundingBox {
+    get
+  }
+  public init(_ objects: [T], nodeSize: Swift.Int = 16, sortOption: GISToolsKit.RTreeSortOption = .hilbert)
+}
+extension GISToolsKit.RTree {
+  public typealias AroundSearchResult = (object: T, distance: CoreLocation.CLLocationDistance)
+  public func search(inBoundingBox searchBoundingBox: GISToolsKit.BoundingBox) -> [T]
+  public func searchSerial(inBoundingBox searchBoundingBox: GISToolsKit.BoundingBox) -> [T]
+  public func search(aroundCoordinate coordinate: GISToolsKit.Coordinate3D, maximumDistance: CoreLocation.CLLocationDistance, sorted: Swift.Bool = true) -> [GISToolsKit.RTree<T>.AroundSearchResult] where T : GISToolsKit.GeoJson
+  public func searchSerial(aroundCoordinate coordinate: GISToolsKit.Coordinate3D, maximumDistance: CoreLocation.CLLocationDistance, sorted: Swift.Bool = true) -> [GISToolsKit.RTree<T>.AroundSearchResult] where T : GISToolsKit.GeoJson
+}
+extension GISToolsKit.LineSegment {
+  public func checkIsOnSegment(_ coordinate: GISToolsKit.Coordinate3D) -> Swift.Bool
+  public func checkIsOnSegment(_ point: GISToolsKit.Point) -> Swift.Bool
+}
+extension GISToolsKit.LineStringGeometry {
+  public func checkIsOnLine(_ coordinate: GISToolsKit.Coordinate3D) -> Swift.Bool
+  public func checkIsOnLine(_ point: GISToolsKit.Point) -> Swift.Bool
+}
+extension GISToolsKit.LineString {
+  public func sliceAlong(startDistance: CoreLocation.CLLocationDistance = 0.0, stopDistance: CoreLocation.CLLocationDistance = .greatestFiniteMagnitude) -> GISToolsKit.LineString?
+}
+extension GISToolsKit.Feature {
+  public func sliceAlong(startDistance: CoreLocation.CLLocationDistance, stopDistance: CoreLocation.CLLocationDistance) -> GISToolsKit.Feature?
+}
+public struct LineString : GISToolsKit.LineStringGeometry, GISToolsKit.EmptyCreatable {
+  public var type: GISToolsKit.GeoJsonType {
+    get
+  }
+  public var projection: GISToolsKit.Projection {
+    get
+  }
+  public let coordinates: [GISToolsKit.Coordinate3D]
+  public var allCoordinates: [GISToolsKit.Coordinate3D] {
+    get
+  }
+  public var boundingBox: GISToolsKit.BoundingBox?
+  public var foreignMembers: [Swift.String : any Swift.Sendable]
+  public var lineStrings: [GISToolsKit.LineString] {
+    get
+  }
+  public init()
+  public init?(_ coordinates: [GISToolsKit.Coordinate3D], calculateBoundingBox: Swift.Bool = false)
+  public init(unchecked coordinates: [GISToolsKit.Coordinate3D], calculateBoundingBox: Swift.Bool = false)
+  public init(_ lineSegment: GISToolsKit.LineSegment, calculateBoundingBox: Swift.Bool = false)
+  public init?(_ lineSegments: [GISToolsKit.LineSegment], calculateBoundingBox: Swift.Bool = false)
+  public init?(json: Any?)
+  public init?(json: Any?, calculateBoundingBox: Swift.Bool = false)
+  public var asJson: [Swift.String : any Swift.Sendable] {
+    get
+  }
+}
+extension GISToolsKit.LineString {
+  public var firstCoordinate: GISToolsKit.Coordinate3D? {
+    get
+  }
+  public var lastCoordinate: GISToolsKit.Coordinate3D? {
+    get
+  }
+}
+extension GISToolsKit.LineString {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.LineString
+}
+extension GISToolsKit.LineString {
+  public init?(_ coordinates: [CoreLocation.CLLocationCoordinate2D], calculateBoundingBox: Swift.Bool = false)
+  public init?(_ coordinates: [CoreLocation.CLLocation], calculateBoundingBox: Swift.Bool = false)
+}
+extension GISToolsKit.LineString {
+  public func calculateBoundingBox() -> GISToolsKit.BoundingBox?
+  public func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.LineString : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.LineString, rhs: GISToolsKit.LineString) -> Swift.Bool
+}
+extension GISToolsKit.GeoJson {
+  public func tileCover(atZoom zoom: Swift.Int) -> [GISToolsKit.MapTile]
+}
+extension GISToolsKit.BoundingBox {
+  public func tileCover(atZoom zoom: Swift.Int) -> [GISToolsKit.MapTile]
+}
+extension GISToolsKit.FeatureCollection {
+  public func enumerateCoordinates(_ callback: (_ featureIndex: Swift.Int, _ coordinateIndex: Swift.Int, _ coordinate: GISToolsKit.Coordinate3D) -> Swift.Void)
+}
+extension GISToolsKit.Feature {
+  public func enumerateCoordinates(_ callback: (_ coordinateIndex: Swift.Int, _ coordinate: GISToolsKit.Coordinate3D) -> Swift.Void)
+}
+extension GISToolsKit.GeometryCollection {
+  public func enumerateCoordinates(_ callback: (_ geometryIndex: Swift.Int, _ coordinateIndex: Swift.Int, _ coordinate: GISToolsKit.Coordinate3D) -> Swift.Void)
+}
+extension GISToolsKit.GeoJsonGeometry {
+  public func enumerateCoordinates(_ callback: (_ coordinateIndex: Swift.Int, _ coordinate: GISToolsKit.Coordinate3D) -> Swift.Void)
+}
+extension GISToolsKit.GISTool {
+  public enum Unit : Swift.Sendable {
+    case acres
+    case centimeters
+    case centimetres
+    case degrees
+    case feet
+    case inches
+    case kilometers
+    case kilometres
+    case meters
+    case metres
+    case miles
+    case millimeters
+    case millimetres
+    case nauticalmiles
+    case radians
+    case yards
+    public static func == (a: GISToolsKit.GISTool.Unit, b: GISToolsKit.GISTool.Unit) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static func factor(for unit: GISToolsKit.GISTool.Unit) -> Swift.Double?
+  public static func unitsFactor(for unit: GISToolsKit.GISTool.Unit) -> Swift.Double?
+  public static func areaFactor(for unit: GISToolsKit.GISTool.Unit) -> Swift.Double?
+  public static func convert(length: Swift.Double, from originalUnit: GISToolsKit.GISTool.Unit, to finalUnit: GISToolsKit.GISTool.Unit) -> Swift.Double?
+  public static func convert(area: Swift.Double, from originalUnit: GISToolsKit.GISTool.Unit, to finalUnit: GISToolsKit.GISTool.Unit) -> Swift.Double?
+}
+extension GISToolsKit.GISTool {
+  @available(*, deprecated, renamed: "coordinate(fromPixelX:pixelY:zoom:tileSideLength:projection:)")
+  public static func convertToCoordinate(fromPixelX pixelX: Swift.Double, pixelY: Swift.Double, atZoom zoom: Swift.Int, tileSideLength: Swift.Double = GISTool.tileSideLength, projection: GISToolsKit.Projection = .epsg4326) -> GISToolsKit.Coordinate3D
+  public static func coordinate(fromPixelX pixelX: Swift.Double, pixelY: Swift.Double, zoom: Swift.Int, tileSideLength: Swift.Double = GISTool.tileSideLength, projection: GISToolsKit.Projection = .epsg4326) -> GISToolsKit.Coordinate3D
+  public static func metersPerPixel(atZoom zoom: Swift.Int, latitude: CoreLocation.CLLocationDegrees = 0.0, tileSideLength: Swift.Double = GISTool.tileSideLength) -> Swift.Double
+}
+extension GISToolsKit.GISTool {
+  @available(*, deprecated, renamed: "degrees(fromMeters:atLatitude:)")
+  public static func convertToDegrees(fromMeters meters: Swift.Double, atLatitude latitude: CoreLocation.CLLocationDegrees) -> (latitudeDegrees: CoreLocation.CLLocationDegrees, longitudeDegrees: CoreLocation.CLLocationDegrees)
+  public static func degrees(fromMeters meters: CoreLocation.CLLocationDistance, atLatitude latitude: CoreLocation.CLLocationDegrees) -> (latitudeDegrees: CoreLocation.CLLocationDegrees, longitudeDegrees: CoreLocation.CLLocationDegrees)
+}
+extension GISToolsKit.Coordinate3D {
+  public func degrees(fromMeters meters: CoreLocation.CLLocationDistance) -> (latitudeDegrees: CoreLocation.CLLocationDegrees, longitudeDegrees: CoreLocation.CLLocationDegrees)
+}
+extension GISToolsKit.GeoJson {
+  public var pointOnFeature: GISToolsKit.Point? {
+    get
+  }
+  public var coordinateOnFeature: GISToolsKit.Coordinate3D? {
+    get
+  }
+}
+extension Swift.Double {
+  public var bearingToAzimuth: CoreLocation.CLLocationDegrees {
+    get
+  }
+}
+extension GISToolsKit.GeoJson {
+  public func isDisjoint(with other: any GISToolsKit.GeoJson) -> Swift.Bool
+}
+extension GISToolsKit.LineString {
+  public func chunked(segmentLength: CoreLocation.CLLocationDistance, dropIntermediateCoordinates: Swift.Bool = false) -> GISToolsKit.MultiLineString
+  public func evenlyDivided(segmentLength: CoreLocation.CLLocationDistance, dropIntermediateCoordinates: Swift.Bool = false) -> GISToolsKit.LineString
+}
+extension GISToolsKit.MultiLineString {
+  public func chunked(segmentLength: CoreLocation.CLLocationDistance, dropIntermediateCoordinates: Swift.Bool = false) -> GISToolsKit.MultiLineString
+  public func evenlyDivided(segmentLength: CoreLocation.CLLocationDistance, dropIntermediateCoordinates: Swift.Bool = false) -> GISToolsKit.MultiLineString
+}
+extension GISToolsKit.Feature {
+  public func chunked(segmentLength: CoreLocation.CLLocationDistance, dropIntermediateCoordinates: Swift.Bool = false) -> GISToolsKit.FeatureCollection
+}
+extension GISToolsKit.FeatureCollection {
+  public func chunked(segmentLength: CoreLocation.CLLocationDistance, dropIntermediateCoordinates: Swift.Bool = false) -> GISToolsKit.FeatureCollection
+}
+extension GISToolsKit.LineString {
+  public func coordinateAlong(distance: CoreLocation.CLLocationDistance) -> GISToolsKit.Coordinate3D
+  public func pointAlong(distance: CoreLocation.CLLocationDistance) -> GISToolsKit.Point
+}
+extension GISToolsKit.GeoJson {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+extension GISToolsKit.BoundingBox : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+extension GISToolsKit.Coordinate3D : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+@_inheritsConvenienceInitializers @objc(GeoJsonTransformer) final public class GeoJsonTransformer : Foundation.ValueTransformer {
+  public static let name: Foundation.NSValueTransformerName
+  public static func register()
+  @objc override final public class func transformedValueClass() -> Swift.AnyClass
+  @objc override final public class func allowsReverseTransformation() -> Swift.Bool
+  @objc override final public func transformedValue(_ value: Any?) -> Any?
+  @objc override final public func reverseTransformedValue(_ value: Any?) -> Any?
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum PolygonWindingOrder : Swift.Sendable {
+  case clockwise
+  case counterClockwise
+  public static func == (a: GISToolsKit.PolygonWindingOrder, b: GISToolsKit.PolygonWindingOrder) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GISToolsKit.GeoJson {
+  public func withWindingOrder(_ order: GISToolsKit.PolygonWindingOrder) -> Self
+  public mutating func forceWindingOrder(_ order: GISToolsKit.PolygonWindingOrder)
+  public var rewinded: Self {
+    get
+  }
+  public mutating func rewind()
+}
+extension GISToolsKit.GeoJsonGeometry {
+  public init?(wkb: Foundation.Data, sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326, calculateBoundingBox: Swift.Bool = false)
+  public init?(wkb: Foundation.Data, sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326, calculateBoundingBox: Swift.Bool = false)
+  public static func parse(wkb: Foundation.Data, sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326) -> (any GISToolsKit.GeoJsonGeometry)?
+  public static func parse(wkb: Foundation.Data, sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326) -> (any GISToolsKit.GeoJsonGeometry)?
+  public var asWKB: Foundation.Data? {
+    get
+  }
+}
+extension GISToolsKit.Feature {
+  public init?(wkb: Foundation.Data, sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326, id: GISToolsKit.Feature.Identifier? = nil, properties: [Swift.String : any Swift.Sendable] = [:], calculateBoundingBox: Swift.Bool = false)
+  public init?(wkb: Foundation.Data, sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326, id: GISToolsKit.Feature.Identifier? = nil, properties: [Swift.String : any Swift.Sendable] = [:], calculateBoundingBox: Swift.Bool = false)
+  public var asWKB: Foundation.Data? {
+    get
+  }
+}
+extension GISToolsKit.FeatureCollection {
+  public init?(wkb: Foundation.Data, sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326, calculateBoundingBox: Swift.Bool = false)
+  public init?(wkb: Foundation.Data, sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326, calculateBoundingBox: Swift.Bool = false)
+  public var asWKB: Foundation.Data? {
+    get
+  }
+}
+extension Foundation.Data {
+  public func asGeoJsonGeometry(sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326) -> (any GISToolsKit.GeoJsonGeometry)?
+  public func asGeoJsonGeometry(sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326) -> (any GISToolsKit.GeoJsonGeometry)?
+  public func asFeature(sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326, id: GISToolsKit.Feature.Identifier? = nil, properties: [Swift.String : any Swift.Sendable] = [:]) -> GISToolsKit.Feature?
+  public func asFeature(sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326, id: GISToolsKit.Feature.Identifier? = nil, properties: [Swift.String : any Swift.Sendable] = [:]) -> GISToolsKit.Feature?
+  public func asFeatureCollection(sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326) -> GISToolsKit.FeatureCollection?
+  public func asFeatureCollection(sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326) -> GISToolsKit.FeatureCollection?
+}
+public enum WKBCoder {
+  public enum ByteOrder : Swift.UInt8 {
+    case bigEndian
+    case littleEndian
+    public init?(rawValue: Swift.UInt8)
+    public typealias RawValue = Swift.UInt8
+    public var rawValue: Swift.UInt8 {
+      get
+    }
+  }
+  public enum WKBCoderError : Swift.Error {
+    case dataCorrupted
+    case emptyGeometry
+    case invalidGeometry
+    case targetProjectionMustBeNoSRID
+    case unknownSRID
+    case unexpectedType
+    public static func == (a: GISToolsKit.WKBCoder.WKBCoderError, b: GISToolsKit.WKBCoder.WKBCoderError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+}
+extension GISToolsKit.WKBCoder {
+  public static func decode(wkb: Foundation.Data, sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326) throws -> any GISToolsKit.GeoJsonGeometry
+  public static func decode(wkb: Foundation.Data, sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326) throws -> any GISToolsKit.GeoJsonGeometry
+}
+extension GISToolsKit.WKBCoder {
+  public static func encode(geometry: any GISToolsKit.GeoJsonGeometry, byteOrder: GISToolsKit.WKBCoder.ByteOrder = .littleEndian, targetProjection: GISToolsKit.Projection? = .epsg4326) -> Foundation.Data?
+}
+extension Swift.Int {
+  public var millimeters: Swift.Double {
+    get
+  }
+  public var centimeters: Swift.Double {
+    get
+  }
+  public var meters: Swift.Double {
+    get
+  }
+  public var kilometers: Swift.Double {
+    get
+  }
+  public var inches: Swift.Double {
+    get
+  }
+  public var feet: Swift.Double {
+    get
+  }
+  public var yards: Swift.Double {
+    get
+  }
+  public var miles: Swift.Double {
+    get
+  }
+  public var nauticalMiles: Swift.Double {
+    get
+  }
+}
+extension GISToolsKit.Point {
+  public func clipped(to boundingBox: GISToolsKit.BoundingBox) -> GISToolsKit.Point?
+}
+extension GISToolsKit.MultiPoint {
+  public func clipped(to boundingBox: GISToolsKit.BoundingBox) -> GISToolsKit.MultiPoint?
+}
+extension GISToolsKit.LineString {
+  public func clipped(to boundingBox: GISToolsKit.BoundingBox) -> GISToolsKit.MultiLineString?
+}
+extension GISToolsKit.MultiLineString {
+  public func clipped(to boundingBox: GISToolsKit.BoundingBox) -> GISToolsKit.MultiLineString?
+}
+extension GISToolsKit.Polygon {
+  public func clipped(to boundingBox: GISToolsKit.BoundingBox) -> GISToolsKit.Polygon?
+}
+extension GISToolsKit.MultiPolygon {
+  public func clipped(to boundingBox: GISToolsKit.BoundingBox) -> GISToolsKit.MultiPolygon?
+}
+extension GISToolsKit.GeometryCollection {
+  public func clipped(to boundingBox: GISToolsKit.BoundingBox) -> GISToolsKit.GeometryCollection?
+}
+extension GISToolsKit.GeoJsonGeometry {
+  public func clipped(to boundingBox: GISToolsKit.BoundingBox) -> (any GISToolsKit.GeoJsonGeometry)?
+}
+extension GISToolsKit.Feature {
+  public func clipped(to boundingBox: GISToolsKit.BoundingBox) -> GISToolsKit.Feature?
+}
+extension GISToolsKit.FeatureCollection {
+  public func clipped(to boundingBox: GISToolsKit.BoundingBox) -> GISToolsKit.FeatureCollection?
+}
+extension GISToolsKit.Coordinate3D {
+  public func midpoint(to other: GISToolsKit.Coordinate3D) -> GISToolsKit.Coordinate3D
+}
+extension GISToolsKit.Point {
+  public func midpoint(to other: GISToolsKit.Point) -> GISToolsKit.Point
+}
+public struct MultiLineString : GISToolsKit.LineStringGeometry, GISToolsKit.EmptyCreatable {
+  public var type: GISToolsKit.GeoJsonType {
+    get
+  }
+  public var projection: GISToolsKit.Projection {
+    get
+  }
+  public var coordinates: [[GISToolsKit.Coordinate3D]] {
+    get
+  }
+  public var allCoordinates: [GISToolsKit.Coordinate3D] {
+    get
+  }
+  public var boundingBox: GISToolsKit.BoundingBox?
+  public var foreignMembers: [Swift.String : any Swift.Sendable]
+  public var lineStrings: [GISToolsKit.LineString] {
+    get
+  }
+  public init()
+  public init?(_ coordinates: [[GISToolsKit.Coordinate3D]], calculateBoundingBox: Swift.Bool = false)
+  public init(unchecked coordinates: [[GISToolsKit.Coordinate3D]], calculateBoundingBox: Swift.Bool = false)
+  public init?(_ lineStrings: [GISToolsKit.LineString], calculateBoundingBox: Swift.Bool = false)
+  public init(unchecked lineStrings: [GISToolsKit.LineString], calculateBoundingBox: Swift.Bool = false)
+  public init?(_ lineSegments: [GISToolsKit.LineSegment], calculateBoundingBox: Swift.Bool = false)
+  public init(unchecked lineSegments: [GISToolsKit.LineSegment], calculateBoundingBox: Swift.Bool = false)
+  public init?(json: Any?)
+  public init?(json: Any?, calculateBoundingBox: Swift.Bool = false)
+  public var asJson: [Swift.String : any Swift.Sendable] {
+    get
+  }
+}
+extension GISToolsKit.MultiLineString {
+  public var firstCoordinate: GISToolsKit.Coordinate3D? {
+    get
+  }
+  public var lastCoordinate: GISToolsKit.Coordinate3D? {
+    get
+  }
+}
+extension GISToolsKit.MultiLineString {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.MultiLineString
+}
+extension GISToolsKit.MultiLineString {
+  public init?(_ coordinates: [[CoreLocation.CLLocationCoordinate2D]], calculateBoundingBox: Swift.Bool = false)
+  public init?(_ coordinates: [[CoreLocation.CLLocation]], calculateBoundingBox: Swift.Bool = false)
+}
+extension GISToolsKit.MultiLineString {
+  @discardableResult
+  public mutating func updateBoundingBox(onlyIfNecessary ifNecessary: Swift.Bool = true) -> GISToolsKit.BoundingBox?
+  public func calculateBoundingBox() -> GISToolsKit.BoundingBox?
+  public func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.MultiLineString : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.MultiLineString, rhs: GISToolsKit.MultiLineString) -> Swift.Bool
+}
+extension GISToolsKit.MultiLineString {
+  public mutating func insertLineString(_ lineString: GISToolsKit.LineString, atIndex index: Swift.Int)
+  public mutating func appendLineString(_ lineString: GISToolsKit.LineString)
+  @discardableResult
+  public mutating func removeLineString(at index: Swift.Int) -> GISToolsKit.LineString?
+  public mutating func mapLinestrings(_ transform: (GISToolsKit.LineString) -> GISToolsKit.LineString)
+  public mutating func compactMapLinestrings(_ transform: (GISToolsKit.LineString) -> GISToolsKit.LineString?)
+  public mutating func filterLinestrings(_ isIncluded: (GISToolsKit.LineString) -> Swift.Bool)
+}
+extension GISToolsKit.GeoJson {
+  public func transformedCoordinates(_ transform: (GISToolsKit.Coordinate3D) -> GISToolsKit.Coordinate3D) -> Self
+  public mutating func transformCoordinates(_ transform: (GISToolsKit.Coordinate3D) -> GISToolsKit.Coordinate3D)
+}
+extension GISToolsKit.FeatureCollection {
+  public func enumerateProperties(_ callback: (_ featureIndex: Swift.Int, _ properties: [Swift.String : any Swift.Sendable]) -> Swift.Void)
+  public func propertiesSummary() -> [Swift.String : [Swift.AnyHashable]]
+}
+public protocol BoundingBoxRepresentable {
+  var projection: GISToolsKit.Projection { get }
+  var boundingBox: GISToolsKit.BoundingBox? { get set }
+  func calculateBoundingBox() -> GISToolsKit.BoundingBox?
+  @discardableResult
+  mutating func updateBoundingBox(onlyIfNecessary ifNecessary: Swift.Bool) -> GISToolsKit.BoundingBox?
+  func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.BoundingBoxRepresentable {
+  @discardableResult
+  public mutating func updateBoundingBox(onlyIfNecessary ifNecessary: Swift.Bool = true) -> GISToolsKit.BoundingBox?
+}
+extension Swift.Array where Element == GISToolsKit.Coordinate3D {
+  public var asCoordinates2D: [CoreLocation.CLLocationCoordinate2D] {
+    get
+  }
+  public var asLocations: [CoreLocation.CLLocation] {
+    get
+  }
+  public var asPoints: [GISToolsKit.Point] {
+    get
+  }
+  public var asMultiPoint: GISToolsKit.MultiPoint? {
+    get
+  }
+  public var asUncheckedMultiPoint: GISToolsKit.MultiPoint {
+    get
+  }
+  public var asLineString: GISToolsKit.LineString? {
+    get
+  }
+  public var asUncheckedLineString: GISToolsKit.LineString {
+    get
+  }
+  public var asPolygon: GISToolsKit.Polygon? {
+    get
+  }
+  public var asUncheckedPolygon: GISToolsKit.Polygon {
+    get
+  }
+  public var asRing: GISToolsKit.Ring? {
+    get
+  }
+  public var asUncheckedRing: GISToolsKit.Ring {
+    get
+  }
+}
+extension Swift.Array where Element == any GISToolsKit.GeoJsonGeometry {
+  public var asGeometryCollection: GISToolsKit.GeometryCollection {
+    get
+  }
+  public var asFeatureCollection: GISToolsKit.FeatureCollection {
+    get
+  }
+  public var asWKB: Foundation.Data? {
+    get
+  }
+  public var asWKT: Swift.String? {
+    get
+  }
+}
+extension Swift.Array where Element == GISToolsKit.Feature {
+  public var asGeometryCollection: GISToolsKit.GeometryCollection {
+    get
+  }
+  public var asFeatureCollection: GISToolsKit.FeatureCollection {
+    get
+  }
+  public var asWKB: Foundation.Data? {
+    get
+  }
+  public var asWKT: Swift.String? {
+    get
+  }
+}
+extension Swift.Array where Element == GISToolsKit.FeatureCollection {
+  public var asGeometryCollection: GISToolsKit.GeometryCollection {
+    get
+  }
+  public var asFeatureCollection: GISToolsKit.FeatureCollection {
+    get
+  }
+  public var asWKB: Foundation.Data? {
+    get
+  }
+  public var asWKT: Swift.String? {
+    get
+  }
+}
+extension GISToolsKit.PolygonGeometry {
+  public func coordinatesWithin(_ coordinates: [GISToolsKit.Coordinate3D]) -> [GISToolsKit.Coordinate3D]
+  public func pointsWithin(_ points: [GISToolsKit.Point]) -> [GISToolsKit.Point]
+}
+extension Swift.Array where Element == GISToolsKit.Coordinate3D {
+  public func encodePolyline(precision: Swift.Double = GISTool.defaultPolylinePrecision) -> Swift.String
+}
+extension Swift.String {
+  public func decodePolyline(precision: Swift.Double = GISTool.defaultPolylinePrecision) -> [GISToolsKit.Coordinate3D]?
+}
+extension GISToolsKit.GeoJson {
+  public func intersects(with other: any GISToolsKit.GeoJson) -> Swift.Bool
+}
+public protocol ValidatableGeoJson {
+  var isValid: Swift.Bool { get }
+}
+extension GISToolsKit.Feature {
+  public var isValid: Swift.Bool {
+    get
+  }
+  public static func isValid(geoJson: [Swift.String : Any]) -> Swift.Bool
+}
+extension GISToolsKit.FeatureCollection {
+  public var isValid: Swift.Bool {
+    get
+  }
+  public static func isValid(geoJson: [Swift.String : Any]) -> Swift.Bool
+}
+extension GISToolsKit.GeometryCollection {
+  public var isValid: Swift.Bool {
+    get
+  }
+  public static func isValid(geoJson: [Swift.String : Any]) -> Swift.Bool
+}
+extension GISToolsKit.LineString {
+  public var isValid: Swift.Bool {
+    get
+  }
+  public static func isValid(geoJson: [Swift.String : Any]) -> Swift.Bool
+}
+extension GISToolsKit.MultiLineString {
+  public var isValid: Swift.Bool {
+    get
+  }
+  public static func isValid(geoJson: [Swift.String : Any]) -> Swift.Bool
+}
+extension GISToolsKit.Point {
+  public var isValid: Swift.Bool {
+    get
+  }
+  public static func isValid(geoJson: [Swift.String : Any]) -> Swift.Bool
+}
+extension GISToolsKit.MultiPoint {
+  public var isValid: Swift.Bool {
+    get
+  }
+  public static func isValid(geoJson: [Swift.String : Any]) -> Swift.Bool
+}
+extension GISToolsKit.Polygon {
+  public var isValid: Swift.Bool {
+    get
+  }
+  public static func isValid(geoJson: [Swift.String : Any]) -> Swift.Bool
+}
+extension GISToolsKit.MultiPolygon {
+  public var isValid: Swift.Bool {
+    get
+  }
+  public static func isValid(geoJson: [Swift.String : Any]) -> Swift.Bool
+}
+extension GISToolsKit.GeoJson {
+  public static func checkIsValid(geoJson: [Swift.String : Any], ofType expectedType: GISToolsKit.GeoJsonType? = nil) -> Swift.Bool
+}
+extension GISToolsKit.LineSegment {
+  public func intersects(_ other: GISToolsKit.LineSegment) -> Swift.Bool
+  public func intersection(_ other: GISToolsKit.LineSegment) -> GISToolsKit.Coordinate3D?
+}
+extension GISToolsKit.GeoJson {
+  public func intersections(other: any GISToolsKit.GeoJson) -> [GISToolsKit.Point]
+}
+public protocol GeoJsonConvertible : GISToolsKit.GeoJsonReadable, GISToolsKit.GeoJsonWritable {
+}
+public protocol GeoJsonReadable {
+  init?(json: Any?)
+}
+extension GISToolsKit.GeoJsonReadable {
+  public init?(contentsOf url: Foundation.URL)
+  public init?(jsonData: Foundation.Data)
+  public init?(jsonString: Swift.String)
+}
+public protocol GeoJsonWritable {
+  var asJson: [Swift.String : any Swift.Sendable] { get }
+}
+extension GISToolsKit.GeoJsonWritable {
+  public func asJsonData(prettyPrinted: Swift.Bool = false) -> Foundation.Data?
+  public func asJsonString(prettyPrinted: Swift.Bool = false) -> Swift.String?
+  public func write(to url: Foundation.URL, prettyPrinted: Swift.Bool = false) throws
+}
+extension Swift.Sequence where Self.Element : GISToolsKit.GeoJsonWritable {
+  public var asJson: [[Swift.String : any Swift.Sendable]] {
+    get
+  }
+}
+extension GISToolsKit.GeoJsonWritable {
+  public func dump()
+}
+extension GISToolsKit.Coordinate3D {
+  public func rhumbBearing(to other: GISToolsKit.Coordinate3D, final: Swift.Bool = false) -> CoreLocation.CLLocationDegrees
+}
+extension GISToolsKit.Point {
+  public func rhumbBearing(to other: GISToolsKit.Point, final: Swift.Bool = false) -> CoreLocation.CLLocationDegrees
+}
+extension GISToolsKit.GeoJsonGeometry {
+  public init?(wkt: Swift.String, sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326, calculateBoundingBox: Swift.Bool = false)
+  public init?(wkt: Swift.String, sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326, calculateBoundingBox: Swift.Bool = false)
+  public static func parse(wkt: Swift.String, sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326) -> (any GISToolsKit.GeoJsonGeometry)?
+  public static func parse(wkt: Swift.String, sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326) -> (any GISToolsKit.GeoJsonGeometry)?
+  public var asWKT: Swift.String? {
+    get
+  }
+}
+extension GISToolsKit.Feature {
+  public init?(wkt: Swift.String, sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326, id: GISToolsKit.Feature.Identifier? = nil, properties: [Swift.String : any Swift.Sendable] = [:], calculateBoundingBox: Swift.Bool = false)
+  public init?(wkt: Swift.String, sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326, id: GISToolsKit.Feature.Identifier? = nil, properties: [Swift.String : any Swift.Sendable] = [:], calculateBoundingBox: Swift.Bool = false)
+  public var asWKT: Swift.String? {
+    get
+  }
+}
+extension GISToolsKit.FeatureCollection {
+  public init?(wkt: Swift.String, sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326, calculateBoundingBox: Swift.Bool = false)
+  public init?(wkt: Swift.String, sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326, calculateBoundingBox: Swift.Bool = false)
+  public var asWKT: Swift.String? {
+    get
+  }
+}
+extension Swift.String {
+  public func asGeoJsonGeometry(sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326) -> (any GISToolsKit.GeoJsonGeometry)?
+  public func asGeoJsonGeometry(sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326) -> (any GISToolsKit.GeoJsonGeometry)?
+  public func asFeature(sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326, id: GISToolsKit.Feature.Identifier? = nil, properties: [Swift.String : any Swift.Sendable] = [:]) -> GISToolsKit.Feature?
+  public func asFeature(sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326, id: GISToolsKit.Feature.Identifier? = nil, properties: [Swift.String : any Swift.Sendable] = [:]) -> GISToolsKit.Feature?
+  public func asFeatureCollection(sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326) -> GISToolsKit.FeatureCollection?
+  public func asFeatureCollection(sourceProjection: GISToolsKit.Projection, targetProjection: GISToolsKit.Projection = .epsg4326) -> GISToolsKit.FeatureCollection?
+}
+public enum WKTCoder {
+  public enum WKTCoderError : Swift.Error {
+    case dataCorrupted
+    case emptyGeometry
+    case invalidGeometry
+    case targetProjectionMustBeNoSRID
+    case unknownSRID
+    case unexpectedType
+    public static func == (a: GISToolsKit.WKTCoder.WKTCoderError, b: GISToolsKit.WKTCoder.WKTCoderError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+}
+extension GISToolsKit.WKTCoder {
+  public static func decode(wkt: Swift.String, sourceSrid: Swift.Int?, targetProjection: GISToolsKit.Projection = .epsg4326) throws -> any GISToolsKit.GeoJsonGeometry
+  public static func decode(wkt: Swift.String, sourceProjection: GISToolsKit.Projection?, targetProjection: GISToolsKit.Projection = .epsg4326) throws -> any GISToolsKit.GeoJsonGeometry
+}
+extension GISToolsKit.WKTCoder {
+  public static func encode(geometry: any GISToolsKit.GeoJsonGeometry, targetProjection: GISToolsKit.Projection? = .epsg4326) -> Swift.String?
+}
+extension GISToolsKit.BoundingBox {
+  public struct CoordinatePosition : Swift.OptionSet, Swift.Sendable {
+    public let rawValue: Swift.Int
+    public init(rawValue: Swift.Int)
+    public static let center: GISToolsKit.BoundingBox.CoordinatePosition
+    public static let top: GISToolsKit.BoundingBox.CoordinatePosition
+    public static let right: GISToolsKit.BoundingBox.CoordinatePosition
+    public static let bottom: GISToolsKit.BoundingBox.CoordinatePosition
+    public static let left: GISToolsKit.BoundingBox.CoordinatePosition
+    public static let outside: GISToolsKit.BoundingBox.CoordinatePosition
+    public typealias ArrayLiteralElement = GISToolsKit.BoundingBox.CoordinatePosition
+    public typealias Element = GISToolsKit.BoundingBox.CoordinatePosition
+    public typealias RawValue = Swift.Int
+  }
+  public func position(of coordinate: GISToolsKit.Coordinate3D) -> GISToolsKit.BoundingBox.CoordinatePosition
+  public func postion(of point: GISToolsKit.Point) -> GISToolsKit.BoundingBox.CoordinatePosition
+  public func postion(of coordinate: CoreLocation.CLLocationCoordinate2D) -> GISToolsKit.BoundingBox.CoordinatePosition
+  public func postion(of coordinate: CoreLocation.CLLocation) -> GISToolsKit.BoundingBox.CoordinatePosition
+}
+extension GISToolsKit.BoundingBox {
+  public func nearestCoordinate(from other: GISToolsKit.Coordinate3D) -> (coordinate: GISToolsKit.Coordinate3D, distance: CoreLocation.CLLocationDistance)?
+  public func nearestPoint(from other: GISToolsKit.Point) -> (point: GISToolsKit.Point, distance: CoreLocation.CLLocationDistance)?
+}
+extension GISToolsKit.GeoJson {
+  public func nearestCoordinate(from other: GISToolsKit.Coordinate3D) -> (coordinate: GISToolsKit.Coordinate3D, distance: CoreLocation.CLLocationDistance)?
+  public func nearestPoint(from other: GISToolsKit.Point) -> (point: GISToolsKit.Point, distance: CoreLocation.CLLocationDistance)?
+}
+public struct MultiPoint : GISToolsKit.PointGeometry, GISToolsKit.EmptyCreatable {
+  public var type: GISToolsKit.GeoJsonType {
+    get
+  }
+  public var projection: GISToolsKit.Projection {
+    get
+  }
+  public var coordinates: [GISToolsKit.Coordinate3D] {
+    get
+  }
+  public var allCoordinates: [GISToolsKit.Coordinate3D] {
+    get
+  }
+  public var boundingBox: GISToolsKit.BoundingBox?
+  public var foreignMembers: [Swift.String : any Swift.Sendable]
+  public var points: [GISToolsKit.Point] {
+    get
+  }
+  public init()
+  public init?(_ coordinates: [GISToolsKit.Coordinate3D], calculateBoundingBox: Swift.Bool = false)
+  public init(unchecked coordinates: [GISToolsKit.Coordinate3D], calculateBoundingBox: Swift.Bool = false)
+  public init?(_ points: [GISToolsKit.Point], calculateBoundingBox: Swift.Bool = false)
+  public init(unchecked points: [GISToolsKit.Point], calculateBoundingBox: Swift.Bool = false)
+  public init?(json: Any?)
+  public init?(json: Any?, calculateBoundingBox: Swift.Bool = false)
+  public var asJson: [Swift.String : any Swift.Sendable] {
+    get
+  }
+}
+extension GISToolsKit.MultiPoint {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.MultiPoint
+}
+extension GISToolsKit.MultiPoint {
+  public init?(_ coordinates: [CoreLocation.CLLocationCoordinate2D], calculateBoundingBox: Swift.Bool = false)
+  public init?(_ coordinates: [CoreLocation.CLLocation], calculateBoundingBox: Swift.Bool = false)
+}
+extension GISToolsKit.MultiPoint {
+  @discardableResult
+  public mutating func updateBoundingBox(onlyIfNecessary ifNecessary: Swift.Bool = true) -> GISToolsKit.BoundingBox?
+  public func calculateBoundingBox() -> GISToolsKit.BoundingBox?
+  public func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.MultiPoint : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.MultiPoint, rhs: GISToolsKit.MultiPoint) -> Swift.Bool
+}
+extension GISToolsKit.MultiPoint {
+  public mutating func insertPoint(_ point: GISToolsKit.Point, atIndex index: Swift.Int)
+  public mutating func appendPoint(_ point: GISToolsKit.Point)
+  @discardableResult
+  public mutating func removePoint(at index: Swift.Int) -> GISToolsKit.Point?
+  public mutating func mapPoints(_ transform: (GISToolsKit.Point) -> GISToolsKit.Point)
+  public mutating func compactMapPoints(_ transform: (GISToolsKit.Point) -> GISToolsKit.Point?)
+  public mutating func filterPoints(_ isIncluded: (GISToolsKit.Point) -> Swift.Bool)
+}
+extension GISToolsKit.Polygon {
+  public var area: Swift.Double {
+    get
+  }
+}
+extension GISToolsKit.MultiPolygon {
+  public var area: Swift.Double {
+    get
+  }
+}
+extension GISToolsKit.Ring {
+  public var area: Swift.Double {
+    get
+  }
+}
+extension GISToolsKit.GeoJson {
+  public func transformedRotate(angle: CoreLocation.CLLocationDegrees, pivot: GISToolsKit.Coordinate3D? = nil) -> Self
+  public func transformedRotate(angle: CoreLocation.CLLocationDegrees, pivot: GISToolsKit.Point? = nil) -> Self
+  public mutating func transformRotate(angle: CoreLocation.CLLocationDegrees, pivot: GISToolsKit.Coordinate3D? = nil)
+  public mutating func transformRotate(angle: CoreLocation.CLLocationDegrees, pivot: GISToolsKit.Point? = nil)
+}
+extension GISToolsKit.GeoJson {
+  public var flattened: GISToolsKit.FeatureCollection? {
+    get
+  }
+}
+public struct Coordinate3D : Swift.CustomStringConvertible, Swift.Sendable {
+  public static var zero: GISToolsKit.Coordinate3D {
+    get
+  }
+  public let projection: GISToolsKit.Projection
+  public var latitude: CoreLocation.CLLocationDegrees
+  public var longitude: CoreLocation.CLLocationDegrees
+  public var altitude: CoreLocation.CLLocationDistance?
+  public var m: Swift.Double?
+  @inlinable public var x: Swift.Double {
+    get { longitude }
+  }
+  @inlinable public var y: Swift.Double {
+    get { latitude }
+  }
+  public init(latitude: CoreLocation.CLLocationDegrees, longitude: CoreLocation.CLLocationDegrees)
+  public init(latitude: CoreLocation.CLLocationDegrees, longitude: CoreLocation.CLLocationDegrees, altitude: CoreLocation.CLLocationDistance? = nil, m: Swift.Double? = nil)
+  public init(x: Swift.Double, y: Swift.Double, z: Swift.Double? = nil, m: Swift.Double? = nil, projection: GISToolsKit.Projection = .epsg3857)
+  public var isZero: Swift.Bool {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+}
+extension GISToolsKit.Coordinate3D {
+  public init(_ coordinate: CoreLocation.CLLocationCoordinate2D, altitude: CoreLocation.CLLocationDistance? = nil)
+  public var coordinate2D: CoreLocation.CLLocationCoordinate2D {
+    get
+  }
+  public init(_ location: CoreLocation.CLLocation)
+  public var location: CoreLocation.CLLocation {
+    get
+  }
+}
+extension GISToolsKit.Coordinate3D {
+  public mutating func normalize()
+  public func normalized() -> GISToolsKit.Coordinate3D
+  public mutating func clamp()
+  public func clamped() -> GISToolsKit.Coordinate3D
+}
+extension GISToolsKit.Coordinate3D : GISToolsKit.Projectable {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.Coordinate3D
+  public func latitudeProjected(to newProjection: GISToolsKit.Projection) -> Swift.Double
+  public func longitudeProjected(to newProjection: GISToolsKit.Projection) -> Swift.Double
+}
+extension GISToolsKit.Coordinate3D : GISToolsKit.GeoJsonReadable {
+  public init?(json: Any?)
+  public var asJson: [Swift.Double?] {
+    get
+  }
+  public var asMinimalJson: [Swift.Double] {
+    get
+  }
+}
+extension GISToolsKit.Coordinate3D {
+  public func asJsonData(prettyPrinted: Swift.Bool = false) -> Foundation.Data?
+  public func asJsonString(prettyPrinted: Swift.Bool = false) -> Swift.String?
+  public func write(to url: Foundation.URL, prettyPrinted: Swift.Bool = false) throws
+}
+extension Swift.Sequence where Self.Element == GISToolsKit.Coordinate3D {
+  public var asJson: [[Swift.Double?]] {
+    get
+  }
+}
+extension GISToolsKit.Coordinate3D : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.Coordinate3D, rhs: GISToolsKit.Coordinate3D) -> Swift.Bool
+  public func equals(other: GISToolsKit.Coordinate3D, includingAltitude: Swift.Bool = true, equalityDelta: Swift.Double = GISTool.equalityDelta, altitudeDelta: Swift.Double = 0.0) -> Swift.Bool
+}
+extension GISToolsKit.Coordinate3D : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CoreLocation.CLLocation {
+  public var coordinate3D: GISToolsKit.Coordinate3D {
+    get
+  }
+}
+extension CoreLocation.CLLocationCoordinate2D {
+  public var coordinate3D: GISToolsKit.Coordinate3D {
+    get
+  }
+}
+extension GISToolsKit.LineSegment {
+  public func distanceFrom(coordinate: GISToolsKit.Coordinate3D) -> CoreLocation.CLLocationDistance
+  public func distanceFrom(point: GISToolsKit.Point) -> CoreLocation.CLLocationDistance
+}
+extension GISToolsKit.LineString {
+  public func distanceFrom(point: GISToolsKit.Point) -> CoreLocation.CLLocationDistance
+  public func distanceFrom(coordinate: GISToolsKit.Coordinate3D) -> CoreLocation.CLLocationDistance
+}
+public protocol Projectable {
+  var projection: GISToolsKit.Projection { get }
+  func projected(to newProjection: GISToolsKit.Projection) -> Self
+}
+extension GISToolsKit.Projectable {
+  public mutating func project(to newProjection: GISToolsKit.Projection)
+}
+extension Swift.Double {
+  public var degreesToRadians: Swift.Double {
+    get
+  }
+  public var radiansToDegrees: Swift.Double {
+    get
+  }
+}
+extension Swift.Double {
+  public func lengthToRadians(unit: GISToolsKit.GISTool.Unit = .meters) -> Swift.Double?
+  public func radiansToLength(unit: GISToolsKit.GISTool.Unit = .meters) -> Swift.Double?
+  public func lengthToDegrees(unit: GISToolsKit.GISTool.Unit = .meters) -> Swift.Double?
+}
+extension Swift.Double {
+  public var millimeters: Swift.Double {
+    get
+  }
+  public var centimeters: Swift.Double {
+    get
+  }
+  public var meters: Swift.Double {
+    get
+  }
+  public var kilometers: Swift.Double {
+    get
+  }
+  public var inches: Swift.Double {
+    get
+  }
+  public var feet: Swift.Double {
+    get
+  }
+  public var yards: Swift.Double {
+    get
+  }
+  public var miles: Swift.Double {
+    get
+  }
+  public var nauticalMiles: Swift.Double {
+    get
+  }
+}
+extension GISToolsKit.PointGeometry {
+  public func isOverlapping(with other: any GISToolsKit.PointGeometry, tolerance: CoreLocation.CLLocationDegrees = 0.0) -> Swift.Bool
+}
+extension GISToolsKit.LineStringGeometry {
+  public func isOverlapping(with other: any GISToolsKit.LineStringGeometry, tolerance: CoreLocation.CLLocationDegrees = 0.0) -> Swift.Bool
+}
+extension GISToolsKit.PolygonGeometry {
+  public func isOverlapping(with other: any GISToolsKit.PolygonGeometry, tolerance: CoreLocation.CLLocationDegrees = 0.0) -> Swift.Bool
+}
+extension GISToolsKit.Feature {
+  public func isOverlapping(with other: GISToolsKit.Feature, tolerance: CoreLocation.CLLocationDegrees = 0.0) -> Swift.Bool
+}
+extension GISToolsKit.LineSegment {
+  public enum LineSegmentComparisonResult : Swift.Sendable {
+    case equal
+    case notEqual
+    case thisOnOther
+    case otherOnThis
+    public static func == (a: GISToolsKit.LineSegment.LineSegmentComparisonResult, b: GISToolsKit.LineSegment.LineSegmentComparisonResult) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public func compare(other: GISToolsKit.LineSegment, tolerance: CoreLocation.CLLocationDistance = 0.0) -> GISToolsKit.LineSegment.LineSegmentComparisonResult
+}
+extension GISToolsKit.GeoJson {
+  public func overlappingSegments(with other: any GISToolsKit.GeoJson, tolerance: CoreLocation.CLLocationDistance = 0.0) -> [GISToolsKit.LineSegment]
+  public func overlappingSegments(tolerance: CoreLocation.CLLocationDistance, segmentLength: Swift.Double? = nil) -> GISToolsKit.MultiLineString?
+  public func estimatedOverlap(tolerance: CoreLocation.CLLocationDistance, segmentLength: Swift.Double? = nil) -> Swift.Double
+}
+public enum GeoJsonReader {
+  public static func geoJsonFrom(json: Any?) -> (any GISToolsKit.GeoJson)?
+  public static func geoJsonFrom(contentsOf url: Foundation.URL) -> (any GISToolsKit.GeoJson)?
+  public static func geoJsonFrom(jsonData: Foundation.Data) -> (any GISToolsKit.GeoJson)?
+  public static func geoJsonFrom(jsonString: Swift.String) -> (any GISToolsKit.GeoJson)?
+}
+extension GISToolsKit.Coordinate3D {
+  public func rhumbDestination(distance: CoreLocation.CLLocationDistance, bearing: CoreLocation.CLLocationDegrees) -> GISToolsKit.Coordinate3D
+}
+extension GISToolsKit.Point {
+  public func rhumbDestination(distance: CoreLocation.CLLocationDistance, bearing: CoreLocation.CLLocationDegrees) -> GISToolsKit.Point
+}
+extension GISToolsKit.BoundingBox {
+  public func nearestCoordinateOnFeature(from other: GISToolsKit.Coordinate3D) -> (coordinate: GISToolsKit.Coordinate3D, distance: CoreLocation.CLLocationDistance)?
+  public func nearestPointOnFeature(from other: GISToolsKit.Point) -> (point: GISToolsKit.Point, distance: CoreLocation.CLLocationDistance)?
+}
+extension GISToolsKit.GeoJson {
+  public func nearestPointOnFeature(from other: GISToolsKit.Point) -> (point: GISToolsKit.Point, distance: CoreLocation.CLLocationDistance)?
+  public func nearestCoordinateOnFeature(from other: GISToolsKit.Coordinate3D) -> (coordinate: GISToolsKit.Coordinate3D, distance: CoreLocation.CLLocationDistance)?
+}
+public struct MultiPolygon : GISToolsKit.PolygonGeometry, GISToolsKit.EmptyCreatable {
+  public var type: GISToolsKit.GeoJsonType {
+    get
+  }
+  public var projection: GISToolsKit.Projection {
+    get
+  }
+  public var coordinates: [[[GISToolsKit.Coordinate3D]]] {
+    get
+  }
+  public var allCoordinates: [GISToolsKit.Coordinate3D] {
+    get
+  }
+  public var boundingBox: GISToolsKit.BoundingBox?
+  public var foreignMembers: [Swift.String : any Swift.Sendable]
+  public var polygons: [GISToolsKit.Polygon] {
+    get
+  }
+  public init()
+  public init?(_ coordinates: [[[GISToolsKit.Coordinate3D]]], calculateBoundingBox: Swift.Bool = false)
+  public init(unchecked coordinates: [[[GISToolsKit.Coordinate3D]]], calculateBoundingBox: Swift.Bool = false)
+  public init?(_ polygons: [GISToolsKit.Polygon], calculateBoundingBox: Swift.Bool = false)
+  public init(unchecked polygons: [GISToolsKit.Polygon], calculateBoundingBox: Swift.Bool = false)
+  public init?(json: Any?)
+  public init?(json: Any?, calculateBoundingBox: Swift.Bool = false)
+  public var asJson: [Swift.String : any Swift.Sendable] {
+    get
+  }
+}
+extension GISToolsKit.MultiPolygon {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.MultiPolygon
+}
+extension GISToolsKit.MultiPolygon {
+  public init?(_ coordinates: [[[CoreLocation.CLLocationCoordinate2D]]], calculateBoundingBox: Swift.Bool = false)
+  public init?(_ coordinates: [[[CoreLocation.CLLocation]]], calculateBoundingBox: Swift.Bool = false)
+}
+extension GISToolsKit.MultiPolygon {
+  @discardableResult
+  public mutating func updateBoundingBox(onlyIfNecessary ifNecessary: Swift.Bool = true) -> GISToolsKit.BoundingBox?
+  public func calculateBoundingBox() -> GISToolsKit.BoundingBox?
+  public func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.MultiPolygon : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.MultiPolygon, rhs: GISToolsKit.MultiPolygon) -> Swift.Bool
+}
+extension GISToolsKit.MultiPolygon {
+  public mutating func insertPolygon(_ polygon: GISToolsKit.Polygon, atIndex index: Swift.Int)
+  public mutating func appendPolygon(_ polygon: GISToolsKit.Polygon)
+  @discardableResult
+  public mutating func removePolygon(at index: Swift.Int) -> GISToolsKit.Polygon?
+  public mutating func mapPolygons(_ transform: (GISToolsKit.Polygon) -> GISToolsKit.Polygon)
+  public mutating func compactMapPolygons(_ transform: (GISToolsKit.Polygon) -> GISToolsKit.Polygon?)
+  public mutating func filterPolygons(_ isIncluded: (GISToolsKit.Polygon) -> Swift.Bool)
+}
+extension GISToolsKit.Coordinate3D {
+  public func bearing(to other: GISToolsKit.Coordinate3D, final: Swift.Bool = false) -> CoreLocation.CLLocationDegrees
+  public static func angleBetween(first: GISToolsKit.Coordinate3D, middle: GISToolsKit.Coordinate3D, last: GISToolsKit.Coordinate3D) -> CoreLocation.CLLocationDegrees
+  public static func angleBetween(firstAzimuth: CoreLocation.CLLocationDegrees, secondAzimuth: CoreLocation.CLLocationDegrees) -> CoreLocation.CLLocationDegrees
+}
+extension GISToolsKit.Point {
+  public func bearing(to other: GISToolsKit.Point, final: Swift.Bool = false) -> CoreLocation.CLLocationDegrees
+  public static func angleBetween(first: GISToolsKit.Point, middle: GISToolsKit.Point, last: GISToolsKit.Point) -> CoreLocation.CLLocationDegrees
+}
+extension GISToolsKit.LineSegment {
+  public var bearing: CoreLocation.CLLocationDegrees {
+    get
+  }
+  public var azimuth: CoreLocation.CLLocationDegrees {
+    get
+  }
+}
+public enum ScaleAnchor : Swift.Sendable {
+  case southWest
+  case southEast
+  case northWest
+  case northEast
+  case center
+  case centroid
+  case coordinate(GISToolsKit.Coordinate3D)
+  case point(GISToolsKit.Point)
+}
+extension GISToolsKit.GeoJson {
+  public func transformedScale(factor: Swift.Double, anchor: GISToolsKit.ScaleAnchor = .centroid) -> Self
+  public mutating func transformScale(factor: Swift.Double, anchor: GISToolsKit.ScaleAnchor = .centroid)
+}
+public enum FrechetDistanceFunction {
+  case euclidean
+  case haversine
+  case rhumbLine
+  case other((GISToolsKit.Coordinate3D, GISToolsKit.Coordinate3D) -> CoreLocation.CLLocationDistance)
+}
+extension GISToolsKit.LineString {
+  public func frechetDistance(from other: GISToolsKit.LineString, distanceFunction: GISToolsKit.FrechetDistanceFunction = .haversine, segmentLength: CoreLocation.CLLocationDistance? = nil) -> Swift.Double
+}
+public struct Feature : GISToolsKit.GeoJson, Swift.Identifiable {
+  public enum Identifier : Swift.Equatable, Swift.Hashable, Swift.CustomStringConvertible, Swift.Sendable {
+    public typealias IntId = Swift.Int
+    public typealias UIntId = Swift.UInt
+    case string(Swift.String)
+    case int(GISToolsKit.Feature.Identifier.IntId)
+    case uint(GISToolsKit.Feature.Identifier.UIntId)
+    case double(Swift.Double)
+    public init?(value: Any?)
+    public var asJson: any Swift.Sendable {
+      get
+    }
+    public var description: Swift.String {
+      get
+    }
+    public static func == (a: GISToolsKit.Feature.Identifier, b: GISToolsKit.Feature.Identifier) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public var type: GISToolsKit.GeoJsonType {
+    get
+  }
+  public var projection: GISToolsKit.Projection {
+    get
+  }
+  public var id: GISToolsKit.Feature.Identifier?
+  public var geometry: any GISToolsKit.GeoJsonGeometry {
+    get
+  }
+  public var allCoordinates: [GISToolsKit.Coordinate3D] {
+    get
+  }
+  public var properties: [Swift.String : any Swift.Sendable]
+  public var boundingBox: GISToolsKit.BoundingBox?
+  public var foreignMembers: [Swift.String : any Swift.Sendable]
+  public init(_ geometry: any GISToolsKit.GeoJsonGeometry, id: GISToolsKit.Feature.Identifier? = nil, properties: [Swift.String : any Swift.Sendable] = [:], calculateBoundingBox: Swift.Bool = false)
+  public init?(json: Any?)
+  public init?(json: Any?, calculateBoundingBox: Swift.Bool = false)
+  public var asJson: [Swift.String : any Swift.Sendable] {
+    get
+  }
+  public typealias ID = GISToolsKit.Feature.Identifier?
+}
+extension GISToolsKit.Feature {
+  @discardableResult
+  public mutating func updateBoundingBox(onlyIfNecessary ifNecessary: Swift.Bool = true) -> GISToolsKit.BoundingBox?
+  public func calculateBoundingBox() -> GISToolsKit.BoundingBox?
+  public func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.Feature : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.Feature, rhs: GISToolsKit.Feature) -> Swift.Bool
+}
+extension GISToolsKit.Feature {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.Feature
+}
+extension GISToolsKit.Feature {
+  public func property<T>(for key: Swift.String) -> T? where T : Swift.Sendable
+  public mutating func setProperty(_ value: (any Swift.Sendable)?, for key: Swift.String)
+  @discardableResult
+  public mutating func removeProperty(for key: Swift.String) -> (any Swift.Sendable)?
+  public subscript<T>(key: Swift.String) -> T? where T : Swift.Sendable {
+    get
+    set
+  }
+}
+public struct MapTile : Swift.CustomStringConvertible, Swift.Sendable {
+  public let x: Swift.Int
+  public let y: Swift.Int
+  public let z: Swift.Int
+  public var description: Swift.String {
+    get
+  }
+  public var parent: GISToolsKit.MapTile {
+    get
+  }
+  public var child: GISToolsKit.MapTile {
+    get
+  }
+  public var children: [GISToolsKit.MapTile] {
+    get
+  }
+  public var siblings: [GISToolsKit.MapTile] {
+    get
+  }
+  public init(x: Swift.Int, y: Swift.Int, z: Swift.Int)
+  public init(coordinate: GISToolsKit.Coordinate3D, atZoom zoom: Swift.Int)
+  public init(boundingBox: GISToolsKit.BoundingBox, maxZoom: Swift.Int = 32)
+  public init?(string: Swift.String)
+  public func centerCoordinate(projection: GISToolsKit.Projection = .epsg4326) -> GISToolsKit.Coordinate3D
+  public func boundingBox(projection: GISToolsKit.Projection = .epsg4326) -> GISToolsKit.BoundingBox
+  public var quadkey: Swift.String {
+    get
+  }
+  public init?(quadkey: Swift.String)
+  @available(*, deprecated, renamed: "GISTool.coordinate(fromPixelX:pixelY:zoom:tileSideLength:projection:)", message: "This method has been moved to the GISTool namespace")
+  public static func pixelCoordinate(pixelX: Swift.Double, pixelY: Swift.Double, atZoom zoom: Swift.Int, tileSideLength: Swift.Double = GISTool.tileSideLength, projection: GISToolsKit.Projection = .epsg4326) -> GISToolsKit.Coordinate3D
+  @available(*, deprecated, renamed: "GISTool.metersPerPixel", message: "This method has been moved to the GISTool namespace")
+  public static func metersPerPixel(at zoom: Swift.Int, latitude: Swift.Double = 0.0, tileSideLength: Swift.Double = GISTool.tileSideLength) -> Swift.Double
+  public var metersPerPixel: Swift.Double {
+    get
+  }
+}
+extension GISToolsKit.MapTile : Swift.Equatable, Swift.Hashable {
+  public static func == (a: GISToolsKit.MapTile, b: GISToolsKit.MapTile) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GISToolsKit.Coordinate3D {
+  public func mapTile(atZoom zoom: Swift.Int) -> GISToolsKit.MapTile
+}
+extension CoreLocation.CLLocation {
+  public func mapTile(atZoom zoom: Swift.Int) -> GISToolsKit.MapTile
+}
+extension CoreLocation.CLLocationCoordinate2D {
+  public func mapTile(atZoom zoom: Swift.Int) -> GISToolsKit.MapTile
+}
+public enum Projection : Swift.Int, Swift.CustomStringConvertible, Swift.Codable, Swift.Sendable {
+  case noSRID
+  case epsg3857
+  case epsg4326
+  public init?(srid: Swift.Int)
+  public var srid: Swift.Int {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension GISToolsKit.LineSegment {
+  public func isParallel(to other: GISToolsKit.LineSegment, tolerance: CoreLocation.CLLocationDegrees = 0.0, undirectedEdge: Swift.Bool = false) -> Swift.Bool
+}
+extension GISToolsKit.LineString {
+  public func isParallel(to other: GISToolsKit.LineString, tolerance: CoreLocation.CLLocationDegrees = 0.0) -> Swift.Bool
+}
+extension GISToolsKit.BoundingBox {
+  public var lineSegments: [GISToolsKit.LineSegment] {
+    get
+  }
+}
+extension GISToolsKit.GeoJson {
+  public var lineSegments: [GISToolsKit.LineSegment] {
+    get
+  }
+}
+public struct GeometryCollection : GISToolsKit.GeoJsonGeometry {
+  public var type: GISToolsKit.GeoJsonType {
+    get
+  }
+  public var projection: GISToolsKit.Projection {
+    get
+  }
+  public var geometries: [any GISToolsKit.GeoJsonGeometry] {
+    get
+  }
+  public var allCoordinates: [GISToolsKit.Coordinate3D] {
+    get
+  }
+  public var boundingBox: GISToolsKit.BoundingBox?
+  public var foreignMembers: [Swift.String : any Swift.Sendable]
+  public init(_ geometry: any GISToolsKit.GeoJsonGeometry, calculateBoundingBox: Swift.Bool = false)
+  public init(_ geometries: [any GISToolsKit.GeoJsonGeometry], calculateBoundingBox: Swift.Bool = false)
+  public init?(json: Any?)
+  public init?(json: Any?, calculateBoundingBox: Swift.Bool = false)
+  public var asJson: [Swift.String : any Swift.Sendable] {
+    get
+  }
+}
+extension GISToolsKit.GeometryCollection {
+  @discardableResult
+  public mutating func updateBoundingBox(onlyIfNecessary ifNecessary: Swift.Bool = true) -> GISToolsKit.BoundingBox?
+  public func calculateBoundingBox() -> GISToolsKit.BoundingBox?
+  public func intersects(_ otherBoundingBox: GISToolsKit.BoundingBox) -> Swift.Bool
+}
+extension GISToolsKit.GeometryCollection : Swift.Equatable {
+  public static func == (lhs: GISToolsKit.GeometryCollection, rhs: GISToolsKit.GeometryCollection) -> Swift.Bool
+}
+extension GISToolsKit.GeometryCollection {
+  public func projected(to newProjection: GISToolsKit.Projection) -> GISToolsKit.GeometryCollection
+}
+extension GISToolsKit.GeometryCollection {
+  public mutating func insertGeometry(_ geometry: any GISToolsKit.GeoJsonGeometry, atIndex index: Swift.Int)
+  public mutating func appendGeometry(_ geometry: any GISToolsKit.GeoJsonGeometry)
+  @discardableResult
+  public mutating func removeGeometry(at index: Swift.Int) -> (any GISToolsKit.GeoJsonGeometry)?
+  public mutating func mapGeometries(_ transform: (any GISToolsKit.GeoJsonGeometry) -> any GISToolsKit.GeoJsonGeometry)
+  public mutating func compactMapGeometries(_ transform: (any GISToolsKit.GeoJsonGeometry) -> (any GISToolsKit.GeoJsonGeometry)?)
+  public mutating func filterGeometries(_ isIncluded: (any GISToolsKit.GeoJsonGeometry) -> Swift.Bool)
+}
+extension GISToolsKit.GeoJsonType : Swift.Equatable {}
+extension GISToolsKit.GeoJsonType : Swift.Hashable {}
+extension GISToolsKit.GeoJsonType : Swift.RawRepresentable {}
+extension GISToolsKit.RTreeSortOption : Swift.Equatable {}
+extension GISToolsKit.RTreeSortOption : Swift.Hashable {}
+extension GISToolsKit.GISTool.Unit : Swift.Equatable {}
+extension GISToolsKit.GISTool.Unit : Swift.Hashable {}
+extension GISToolsKit.PolygonWindingOrder : Swift.Equatable {}
+extension GISToolsKit.PolygonWindingOrder : Swift.Hashable {}
+extension GISToolsKit.WKBCoder.ByteOrder : Swift.Equatable {}
+extension GISToolsKit.WKBCoder.ByteOrder : Swift.Hashable {}
+extension GISToolsKit.WKBCoder.ByteOrder : Swift.RawRepresentable {}
+extension GISToolsKit.WKBCoder.WKBCoderError : Swift.Equatable {}
+extension GISToolsKit.WKBCoder.WKBCoderError : Swift.Hashable {}
+extension GISToolsKit.WKTCoder.WKTCoderError : Swift.Equatable {}
+extension GISToolsKit.WKTCoder.WKTCoderError : Swift.Hashable {}
+extension GISToolsKit.LineSegment.LineSegmentComparisonResult : Swift.Equatable {}
+extension GISToolsKit.LineSegment.LineSegmentComparisonResult : Swift.Hashable {}
+extension GISToolsKit.Projection : Swift.Equatable {}
+extension GISToolsKit.Projection : Swift.Hashable {}
+extension GISToolsKit.Projection : Swift.RawRepresentable {}
